@@ -36,6 +36,13 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   app.get( "/", async ( req, res ) => {
     res.send("try GET /filteredimage?image_url={{}}")
   } );
+  app.get( "/filteredimage", async ( req, res ) => {
+    let { image_url } = req.query;
+
+    return res.status(200)
+              .send(`Welcome to the Cloud, ${image_url}!`);
+
+  } );
   
 
   // Start the Server
