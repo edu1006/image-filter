@@ -36,12 +36,15 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   app.get( "/", async ( req, res ) => {
     res.send("try GET /filteredimage?image_url={{}}")
   } );
-  app.get( "/filteredimage", async ( req, res ) => {
+
+  app.get( "/filteredimage/", async (req:express.Request, res:express.Response) => {
+
     let { image_url } = req.query;
-
-    return res.status(200)
-              .send(`Welcome to the Cloud, ${image_url}!`);
-
+    let result = await filterImageFromURL(image_url);
+        if(!result)
+          return res.status(422).send({ message: 'Unable to process image due to semantic errors.' })
+        res.status(200).sendFile(result)
+    
   } );
   
 
